@@ -1,0 +1,9 @@
+<charset name="utf8mb4">
+  <family>Unicode</family>
+  <description>UTF-8 Unicode</description>
+  <collation name="utf8_bin"            id="83">
+    <flag>primary</flag>
+    <flag>binary</flag>
+    <flag>compiled</flag>
+  </collation>
+</charset>

@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.3"
 volumes:
   php-fpm-socket:
   db-store:
@@ -10,16 +10,9 @@ services:
     volumes:
       - php-fpm-socket:/var/run/php-fpm
       - ./backend:/work/backend
-    environment:
-      - DB_CONNECTION=mysql
-      - DB_HOST=db
-      - DB_PORT=3306
-      - DB_DATABASE=${DB_NAME:-laravel_local}
-      - DB_USERNAME=${DB_USER:-phper}
-      - DB_PASSWORD=${DB_PASS:-secret}
 
   web:
-    build:
+    build:                           
       context: .
       dockerfile: ./infra/docker/nginx/Dockerfile
     ports:
@@ -27,17 +20,21 @@ services:
     volumes:
       - php-fpm-socket:/var/run/php-fpm
       - ./backend:/work/backend
-
+            
   db:
-    build:
-      context: .
-      dockerfile: ./infra/docker/mysql/Dockerfile
-    ports:
-      - ${DB_PORT:-3306}:3306
-    volumes:
-      - db-store:/var/lib/mysql
+    # build: ./docker/mysql       # Dockerfileの置き場所を指定
+    image: mysql:5.7
+    restart: always
+    command: "mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci"
     environment:
-      - MYSQL_DATABASE=${DB_NAME:-laravel_local}
-      - MYSQL_USER=${DB_USER:-phper}
-      - MYSQL_PASSWORD=${DB_PASS:-secret}
-      - MYSQL_ROOT_PASSWORD=${DB_PASS:-secret}
+      MYSQL_DATABASE: docker_laravel
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      # - ./docker/mysql/initdb.d:/docker-entrypoint-initdb.d
+      # - ./docker/mysql/conf.d:/etc/mysql/conf.d
+      - ./log/mysql:/var/log/mysql
+      - db-store:/var/lib/mysql
