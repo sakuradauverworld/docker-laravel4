@@ -18,6 +18,7 @@ class TaskController extends Controller
      */
     public function index(Folder $folder)
     {
+       
         // ユーザーのフォルダを取得する
         $folders = Auth::user()->folders()->get();
 
