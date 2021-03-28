@@ -16,15 +16,28 @@ class TaskController extends Controller
      * @param Folder $folder
      * @return \Illuminate\View\View
      */
-    public function index(Folder $folder)
+    public function index(Folder $folder,Request $request)
     {
-       
-        // ユーザーのフォルダを取得する
-        $folders = Auth::user()->folders()->get();
+       #キーワード受け取り
+  $keyword = $request->input('keyword');
+ 
+  #クエリ生成
+  $query = Task::query();
+ 
+  // ユーザーのフォルダを取得する
+  $folders = Auth::user()->folders()->get();
 
-        // 選ばれたフォルダに紐づくタスクを取得する
-        $tasks = $folder->tasks()->get();
-
+  #もしキーワードがあったら
+  if(!empty($keyword))
+  {
+    $tasks = $query->where('title','like','%'.$keyword.'%')
+      ->where('folder_id',$request->folder_id)
+      ->get();
+  }else{
+    // 選ばれたフォルダに紐づくタスクを取得する
+    $tasks = $folder->tasks()->get();
+  }
+        
         return view('tasks/index', [
             'folders' => $folders,
             'current_folder_id' => $folder->id,
