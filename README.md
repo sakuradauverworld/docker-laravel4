@@ -7,7 +7,6 @@ Features
 ・CRUD処理
 ・検索機能
 ・レスポンシブ対応（bootstrap）
-・Mailtrapを使ったパスワード再設定テスト
 ・AWSへのデプロイ
 
 Requirement
