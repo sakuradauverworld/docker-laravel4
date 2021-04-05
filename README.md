@@ -15,3 +15,7 @@ laravel 5.8.38
 
 本番環境
 http://ec2-13-231-201-115.ap-northeast-1.compute.amazonaws.com/login
+メールアドレス
+test@gmail.com
+パスワード
+123456
