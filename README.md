@@ -17,5 +17,5 @@ laravel 5.8.38
 http://ec2-13-231-201-115.ap-northeast-1.compute.amazonaws.com/login
 メールアドレス
 test@gmail.com
-パスワード
+ログインパスワード
 123456
